@@ -34,19 +34,23 @@ import org.matsim.testcases.MatsimTestUtils;
  * @author nagel
  *
  */
-public class HelloWorldTest {
+public class RunMatsimTest{
 	
 	@Rule public MatsimTestUtils utils = new MatsimTestUtils() ;
 
 	@Test
 	public final void test() {
 		try {
-			Config config = ConfigUtils.loadConfig( "scenarios/equil/config.xml" ) ;
+			RunMatsim runMatsim = new RunMatsim( null );;
+
+			Config config = runMatsim.prepareConfig() ;
 			config.controler().setWriteEventsInterval(1);
 			config.controler().setLastIteration(1);
 			config.controler().setOutputDirectory( utils.getOutputDirectory() );
 			config.controler().setOverwriteFileSetting(OverwriteFileSetting.deleteDirectoryIfExists);
-			RunMatsim.run( config );
+
+			runMatsim.run() ;
+
 		} catch ( Exception ee ) {
 			Logger.getLogger(this.getClass()).fatal("there was an exception: \n" + ee ) ;
 
