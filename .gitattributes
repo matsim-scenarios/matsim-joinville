@@ -10,6 +10,8 @@
 *.avi filter=lfs diff=lfs merge=lfs -text
 *.pbf filter=lfs diff=lfs merge=lfs -text
 *.osm filter=lfs diff=lfs merge=lfs -text
+*.qpj filter=lfs diff=lfs merge=lfs -text
+
 
 # don't put whole directories under lfs ... makes it difficult/impossible to handle w/o lfs or to migrate later. kai, nov'18
 #data/** filter=lfs diff=lfs merge=lfs -text
