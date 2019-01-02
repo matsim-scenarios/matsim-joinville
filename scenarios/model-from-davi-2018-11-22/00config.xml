@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE config SYSTEM "http://www.matsim.org/files/dtd/config_v1.dtd"
+	[
+		<!ENTITY OUTBASE "./output-500-2015-06-22">
+		<!ENTITY INBASE  "./input/TCC">
+	]
+>
+<config>
+
+	<!-- ====================================================================== -->
+	
+	<module name="global">
+		<param name="randomSeed" value="5399998864266990000" />
+		<param name="coordinateSystem" value="EPSG:31982" />
+		<param name="numberOfThreads" value="4" />
+	</module>
+			
+	<!-- ====================================================================== -->
+
+	<module name="network">
+		<param name="inputNetworkFile" value="Network_19jun.xml.gz" />
+	</module>
+	
+	<!-- ====================================================================== -->
+
+	<module name="plans">
+		<param name="inputPlansFile" value="output_plans_22jun.xml.gz" />
+	</module>
+	
+	<!-- ====================================================================== -->
+		
+	<module name="qsim" >
+		<param name="flowCapacityFactor" value="1.0" />
+		<param name="storageCapacityFactor" value="1.0" />
+		<!-- "start/endTime" of MobSim (00:00:00 == take earliest activity time/ run as long as active vehicles exist) -->
+		<param name="startTime" value="00:00:00" />
+		<param name="endTime" value="00:00:00" />
+	</module>
+	
+	<!-- ====================================================================== -->
+
+	<module name="planscalcroute" >
+
+		<!-- factor with which beeline distances (and therefore times) are multiplied in order to obtain an estimate of the network distances/times.  Default is something like 1.3 -->
+		<param name="beelineDistanceFactor" value="1.3" />
+
+		<!-- All the modes for which the router is supposed to generate network routes (like car) -->
+		<param name="networkModes" value="car" />
+
+		<param name="teleportedModeSpeed_pt" value="4.167" />
+		<param name="teleportedModeSpeed_walk" value="1.388" />
+		<param name="teleportedModeSpeed_bicycle" value="2.778" />
+		<param name="teleportedModeSpeed_motorcycle" value="16.667" />
+		<param name="teleportedModeSpeed_-1" value="5" />
+	</module>
+
+<!-- ====================================================================== -->
+
+	<module name="controler">
+		<param name="firstIteration" value="0" />
+		<param name="lastIteration" value="500" />		
+		<param name="runId" value="run0" />
+		<!--<param name="routingAlgorithmType" value="Dijkstra" />-->
+		<param name="mobsim" value="qsim" />
+		<param name="writePlansInterval" value="50" />
+		<param name="snapshotFormat" value=""/>
+		<!-- iterationNumber % writeSnapshotsInterval == 0 defines in which iterations snapshots are written to a file. `0' disables snapshots writing completely -->
+		<param name="writeSnapshotsInterval" value="100" />
+	</module>
+		
+	<!-- ====================================================================== -->
+	
+	<module name="counts">
+		<param name="analyzedModes" value="car" />
+		<param name="averageCountsOverIterations" value="100" />
+		<param name="countsScaleFactor" value="1" />
+		<param name="distanceFilter" value="null" />
+		<param name="distanceFilterCenterNode" value="null" />
+		<param name="filterModes" value="false" />
+		<param name="inputCountsFile" value="fileCounts_19jun.xml" />
+		<param name="outputformat" value="all" />
+		<param name="writeCountsInterval" value="100" />
+	</module>
+
+	<!-- ====================================================================== -->
+
+	<module name="facilities" >
+		<param name="inputFacilitiesFile" value="output_facilities_24jun.xml.gz" />
+		<param name="inputFacilityAttributesFile" value="null" />
+	</module>
+
+	<!-- ====================================================================== -->
+
+	<module name="strategy">
+		<param name="maxAgentPlanMemorySize" value="5" />
+
+		<param name="ModuleProbability_1" value="0.9" />
+		<param name="Module_1" value="BestScore" />	
+		
+		<param name="ModuleProbability_2" value="0.1" />
+		<param name="Module_2" value="ReRoute" />
+
+		<param name="ModuleProbability_3" value="0.1" />
+		<param name="Module_3" value="TimeAllocationMutator" />
+	</module>
+		
+	
+	<!-- ====================================================================== -->
+
+	<module name="planCalcScore">
+	
+		<param name="PathSizeLogitBeta" value="1.0" />
+		<param name="learningRate" value="1.0" />
+		<param name="BrainExpBeta" value="2.0" />
+		
+		<param name="lateArrival" value="-18.0" />
+		<param name="traveling" value="-6.0" /> 
+		<param name="travelingPt" value="-6.0" />
+		
+		<param name="performing" value="6.0" />
+		<param name="earlyDeparture" value="0" />
+		<param name="waiting" value="0" />
+		
+		<!-- **************************** -->
+		<!-- **************************** -->
+		<!-- **** NEW ACTIVITY TYPES **** -->
+		<!-- **************************** -->
+		<!-- **************************** -->
+
+		<param name="activityType_1000" value="home" />
+
+		<param name="activityTypicalDuration_1000" value="13:00:00" />
+		<param name="activityMinimalDuration_1000" value="01:00:00" />
+		<param name="activityEarliestEndTime_1000" value="06:00:00" />
+
+		<!-- **************************** -->
+
+		<param name="activityType_1001" value="work" />
+
+		<param name="activityTypicalDuration_1001" value="09:00:00" />
+		<param name="activityMinimalDuration_1001" value="08:00:00" />
+		<param name="activityOpeningTime_1001" value="08:00:00" />
+		<param name="activityLatestStartTime_1001" value="09:00:00" />
+		<param name="activityEarliestEndTime_1001" value="17:00:00" />
+		<param name="activityClosingTime_1001" value="18:00:00" />
+
+		<!-- **************************** -->
+
+		<param name="activityType_1002" value="education" />
+
+		<param name="activityTypicalDuration_1002" value="04:00:00" />
+
+		<!-- **************************** -->
+
+		<param name="activityType_1003" value="shop" />
+
+		<param name="activityTypicalDuration_1003" value="01:00:00" />
+		<param name="activityMinimalDuration_1003" value="00:30:00" />
+		<param name="activityOpeningTime_1003" value="09:00:00" />
+		<param name="activityClosingTime_1003" value="22:00:00" />
+
+		<!-- **************************** -->
+
+		<param name="activityType_1004" value="leisure" />
+
+		<param name="activityTypicalDuration_1004" value="02:00:00" />
+		<param name="activityMinimalDuration_1004" value="01:00:00" />
+		<param name="activityOpeningTime_1004" value="18:00:00" />
+		<param name="activityClosingTime_1004" value="23:00:00" />
+
+	</module>
+	
+	<!-- ====================================================================== -->
+</config>
